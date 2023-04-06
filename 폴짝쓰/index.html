@@ -1,13 +1,60 @@
 <!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="./style.css" rel="stylesheet" />
-    <title>Document</title>
-  </head>
-  <body>
-    <script src="./main.js"></script>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+  
+</body>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<!-- babel은 JSX를 브라우저가 이해할 수 있는 코드로 바꿔줌 -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+
+const root = document.querySelector("#root");
+const students = ['김하니', '이하니', '장하니', '오하니', '유하니', '신하니', '한하니', '고하니', '임하니', '최하니', '주하니', '전하니', '박하니'];
+
+  function App(){
+    const [names, setNames] = React.useState(students); 
+    const [eatens, setEatens] = React.useState([]);
+
+    function AddName(event){
+      const eaten_name = event.target.textContent;
+      setEatens(prev => [...eatens, eaten_name]);
+      setNames(names.filter(name => name !== eaten_name));
+    }
+
+    function DeleteName(event){
+      const uneaten_name = event.target.textContent;
+      setEatens(prev=>eatens.filter(name=>name !== uneaten_name));
+      setNames(prev => [...names, uneaten_name]);
+    }
+
+    return (
+      <div >
+        <h3>얘들아 우유 먹자!</h3>
+        <div>
+          <h4>우유 먹을 사람</h4>
+          {names.map((name)=> <button key={name} onTouchStart={AddName} style={{margin: 10}}>{name}</button>)}
+        </div>
+        <div>
+          <h4>우유 먹은 사람</h4>
+          {eatens.map((name)=> <button key={name} onTouchStart={DeleteName} style={{margin: 10}}>{name}</button>)}
+        </div>
+        
+      </div>
+    )
+  }
+
+
+ReactDOM.createRoot(root).render(<App/>)
+</script>
+
+
 </html>
